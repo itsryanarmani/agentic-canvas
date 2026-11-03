@@ -8,7 +8,7 @@ const host = mkdtempSync(join(tmpdir(), 'canvas-packed-host-'));
 try {
   const tarball = execFileSync('npm', ['pack', '--pack-destination', host, '--silent'], { cwd: root, encoding: 'utf8' }).trim();
   writeFileSync(join(host, 'package.json'), JSON.stringify({ private: true, type: 'module' }));
-  execFileSync('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund', join(host, tarball), 'agentic-identity@0.12.0', 'typescript@5.6.3'], { cwd: host, stdio: 'inherit' });
+  execFileSync('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund', join(host, tarball), 'agentic-identity@0.12.1', 'typescript@5.9.3'], { cwd: host, stdio: 'inherit' });
   writeFileSync(join(host, 'host.mts'), `import { createAccountRegistry } from "agentic-identity/account";
 import { canvasAccount, type CanvasAccountDeps } from "agentic-canvas/account";
 declare const deps: CanvasAccountDeps;
@@ -21,7 +21,7 @@ import assert from "node:assert/strict";
 assert.deepEqual(createAccountRegistry().register(canvasAccount, {}).ids(), ["canvas"]);
 `);
   execFileSync(process.execPath, ['host.mjs'], { cwd: host, stdio: 'inherit' });
-  console.log('Packed account host compiles and loads with identity 0.12.0');
+  console.log('Packed account host compiles and loads with identity 0.12.1');
 } finally {
   rmSync(host, { recursive: true, force: true });
 }
